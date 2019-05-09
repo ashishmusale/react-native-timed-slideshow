@@ -38,16 +38,30 @@ export default class TimedSlideshow extends Component {
             layoutWidth: width,
             loaded: false,
             timer: new Animated.Value(0),
+            pause: false,
         };
 
         this.snapToNext = this.snapToNext.bind(this);
         this.onLayout = this.onLayout.bind(this);
         this.renderItem = this.renderItem.bind(this);
         this.onClose = this.onClose.bind(this);
+        this.pause = this.pause.bind(this);
+        this.resume = this.resume.bind(this);
     }
 
     componentDidMount() {
         // this.animation();
+    }
+
+    pause() {
+        this.setState({pause: true});
+    }
+
+    resume() {
+        const _this = this;
+        this.setState({pause: false}, () => {
+            this.snapToNext();
+        });
     }
 
     animation() {
@@ -69,7 +83,10 @@ export default class TimedSlideshow extends Component {
         let { items, loop } = this.props;
 
         let newIndex = (index + 1) % items.length;
-
+        
+        if (pause)
+            return;
+            
         timer.stopAnimation(() => {
             if (!loop && newIndex === 0) {
                 // we reached the start again, stop the loop
