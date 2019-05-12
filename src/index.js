@@ -79,7 +79,7 @@ export default class TimedSlideshow extends Component {
     }
 
     snapToNext() {
-        const { index, timer } = this.state;
+        const { index, timer, pause } = this.state;
         let { items, loop } = this.props;
 
         let newIndex = (index + 1) % items.length;
